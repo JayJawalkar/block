@@ -63,7 +63,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                   color: Color.fromARGB(255, 131, 131, 131),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const SizedBox(
                       width: 20,
@@ -71,7 +71,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     const Text(
                       "Add New Teacher Details",
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -179,6 +179,4 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
       ),
     );
   }
-
- 
 }
