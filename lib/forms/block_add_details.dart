@@ -139,7 +139,7 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                         "Floor": crF.text,
                         "Id": id,
                       };
-                      await DataBaseMethods()
+                      await DataBaseMethodsBlock()
                             .addBlockDetails(employeeInfoMap, id);
                     },
                     focusElevation: 20,

@@ -1,46 +1,59 @@
-import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBaseMethods {
-  Future addEmployeeDetails(Map<String, dynamic> teacherInfo, String id) async {
-    return await FirebaseFirestore.instance.collection('teacher').doc(id).set(teacherInfo);
+  Future addEmployeeDetails(
+      Map<String, dynamic> employeeInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("teacher")
+        .doc(id)
+        .set(employeeInfoMap);
   }
 
-  Future addBlockDetails(Map<String, dynamic> blockInfo, String id) async {
-    return await FirebaseFirestore.instance.collection("Block").doc(id).asDocument();
-  }
-    Future<Stream<QuerySnapshot>> getEmployeeDetails() async {
+  Future<Stream<QuerySnapshot>> getEmployeeDetails() async {
     return await FirebaseFirestore.instance.collection("teacher").snapshots();
   }
-  // Future<void> addEmployeeDetails(
-  //     Map<String, dynamic> employeeInfoMap, String id) async {
-  //   try {
-  //     await FirebaseFirestore.instance
-  //         .collection("teacher")
-  //         .doc(id)
-  //         .set(employeeInfoMap);
-  //   } catch (e) {
-  //     print("Error adding employee details: $e");
-  //     // Handle error appropriately
-  //     rethrow; // Optionally, rethrow the error if you want to handle it further up the call stack
-  //   }
-  // }
 
-  // Future<Stream<QuerySnapshot>> getEmployeeDetails() async {
-  //   return FirebaseFirestore.instance.collection("teacher").snapshots();
-  // }
+  Future updateEmployeeDetails(
+      String id, Map<String, dynamic> updateInfo) async {
+    return await FirebaseFirestore.instance
+        .collection("teacher")
+        .doc(id)
+        .update(updateInfo);
+  }
 
-  // Future updateEmployeeDetails(
-  //     String id, Map<String, dynamic> updateInfo) async {
-  //   return await FirebaseFirestore.instance
-  //       .collection("teacher")
-  //       .doc(id)
-  //       .update(updateInfo);
-  // }
+  Future deleteEmployeeDetails(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("teacher")
+        .doc(id)
+        .delete();
+  }
+}
 
-  // Future deleteEmployeeDetails(String id) async {
-  //   return await FirebaseFirestore.instance
-  //       .collection("teacher")
-  //       .doc(id)
-  //       .delete();
-  // }
+class DataBaseMethodsBlock {
+  Future addBlockDetails(
+      Map<String, dynamic> employeeInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("block")
+        .doc(id)
+        .set(employeeInfoMap);
+  }
+
+  Future<Stream<QuerySnapshot>> getEmployeeDetails() async {
+    return await FirebaseFirestore.instance.collection("block").snapshots();
+  }
+
+  Future updateEmployeeDetails(
+      String id, Map<String, dynamic> updateInfo) async {
+    return await FirebaseFirestore.instance
+        .collection("block")
+        .doc(id)
+        .update(updateInfo);
+  }
+
+  Future deleteEmployeeDetails(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("block")
+        .doc(id)
+        .delete();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:exam_block/Widgets/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -15,9 +16,9 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             const SizedBox(
               height: 30,
@@ -104,11 +105,19 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             FloatingActionButton.extended(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
+                FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passController.text)
+                    .then(
+                  (value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                    );
+                  },
                 );
               },
               focusElevation: 20,

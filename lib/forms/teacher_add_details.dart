@@ -1,3 +1,4 @@
+import 'package:exam_block/screens/teacher_details_screen.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -104,12 +105,22 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                     ),
                     const SizedBox(height: 20),
                     FloatingActionButton.extended(
-                      onPressed: () async {},
-                      label: const Text("ADD"),
-                      icon: const Icon(Icons.group_add_sharp),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TeacherDetailsScreen(),
+                          ),
+                        );
+                      },
+                      label: const Text("Show"),
+                      icon: const Icon(Icons.groups),
+                      heroTag: "Garam Hai",
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
+                    FloatingActionButton.extended(
+                      label: const Text(" Add "),
+                      icon: const Icon(Icons.group_add_sharp),
                       onPressed: () async {
                         String id = randomAlphaNumeric(10);
                         Map<String, dynamic> employeeInfoMap = {
@@ -133,7 +144,6 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                           },
                         );
                       },
-                      child: const Text('data'),
                     ),
                   ],
                 ),
