@@ -1,8 +1,10 @@
 import 'package:exam_block/screens/teacher_details_screen.dart';
+import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
+import 'package:intl/intl.dart';
 
 class TeacherAddDetails extends StatefulWidget {
   const TeacherAddDetails({super.key});
@@ -13,9 +15,11 @@ class TeacherAddDetails extends StatefulWidget {
 
 class _TeacherAddDetailsState extends State<TeacherAddDetails> {
   final _formKey = GlobalKey<FormState>();
+
+  String id =
+      "${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}+${randomAlphaNumeric(5)}";
+
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController deptController = TextEditingController();
-  final TextEditingController deptIdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(color: Colors.grey),
               child: const Row(
@@ -73,36 +77,48 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      controller: deptController,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        hintText: "Enter Department Name",
-                        focusedBorder: OutlineInputBorder(),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the department name';
-                        }
-                        return null;
-                      },
+                      padding: const EdgeInsets.all(8),
+                      child: DropdownButton<String>(
+                        value: selectedOption,
+                        hint: const Text('Select a department'),
+                        items: options.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedOption = newValue;
+                            selectedDeptId =
+                                deptIdMap[selectedOption]; // Auto-select deptId
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      controller: deptIdController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        hintText: "Enter Department Id",
-                        focusedBorder: OutlineInputBorder(),
+
+                    // Display the auto-selected department ID
+                    if (selectedDeptId != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          "Department ID: $selectedDeptId",
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the department ID';
-                        }
-                        return null;
-                      },
-                    ),
+
                     const SizedBox(height: 20),
                     FloatingActionButton.extended(
                       onPressed: () {
@@ -122,27 +138,44 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       label: const Text(" Add "),
                       icon: const Icon(Icons.group_add_sharp),
                       onPressed: () async {
-                        String id = randomAlphaNumeric(10);
-                        Map<String, dynamic> employeeInfoMap = {
-                          "Name": nameController.text,
-                          "Dept": deptController.text,
-                          "Id": id,
-                          "DeptId": deptIdController.text
-                        };
-                        await DataBaseMethods()
-                            .addEmployeeDetails(employeeInfoMap, id)
-                            .then(
-                          (value) {
+                        if (_formKey.currentState!.validate()) {
+                          if (selectedOption == null ||
+                              selectedDeptId == null) {
                             Fluttertoast.showToast(
+                              msg: "Please select a department",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
+                            return;
+                          }
+
+                          Map<String, dynamic> employeeInfoMap = {
+                            "Name": nameController.text,
+                            "Dept": selectedOption,
+                            "Id": id,
+                            "DeptId": selectedDeptId
+                          };
+
+                          await DataBaseMethods()
+                              .addEmployeeDetails(employeeInfoMap, id)
+                              .then(
+                            (value) {
+                              Fluttertoast.showToast(
                                 msg: "Added",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.CENTER,
                                 timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
+                                backgroundColor: Colors.green,
                                 textColor: Colors.white,
-                                fontSize: 16.0);
-                          },
-                        );
+                                fontSize: 16.0,
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ],

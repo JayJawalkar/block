@@ -71,7 +71,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     const Text(
                       "Add New Teacher Details",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -110,7 +110,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     const Text(
                       "Add New Block Details",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -149,7 +149,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     const Text(
                       "Add New Department Details",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

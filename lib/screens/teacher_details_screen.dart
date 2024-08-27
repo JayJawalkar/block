@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,8 @@ class TeacherDetailsScreen extends StatefulWidget {
 
 class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController agecontroller = TextEditingController();
-  TextEditingController addresscontroller = TextEditingController();
+  TextEditingController deptcontroller = TextEditingController();
+  TextEditingController deptIdcontroller = TextEditingController();
   Stream? EmployeeStream;
 
   getOntheLoad() async {
@@ -68,8 +69,8 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         nameController.text = ds["Name"];
-                                        agecontroller.text = ds["Dept"];
-                                        addresscontroller.text = ds["DeptId"];
+                                        deptcontroller.text = ds["Dept"];
+                                        deptIdcontroller.text = ds["DeptId"];
                                         EditEmployeeDetails(ds["Id"]);
                                       },
                                       child: const Icon(
@@ -92,18 +93,27 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                                 ),
                                 Text(
                                   // ignore: prefer_interpolation_to_compose_strings
-                                  "Age : " + ds['Age'],
+                                  "Dept : " + ds['Dept'],
                                   style: const TextStyle(
-                                    color: Colors.blue,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
                                 ),
                                 Text(
                                   // ignore: prefer_interpolation_to_compose_strings
-                                  "Address : " + ds['Address'],
+                                  "Dept Id : " + ds['DeptId'],
                                   style: const TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  // ignore: prefer_interpolation_to_compose_strings
+                                  "Teacher Id : " + ds['Id'],
+                                  style: const TextStyle(
+                                    color: Colors.grey,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
@@ -133,14 +143,14 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.black),
               ),
               Text(
                 'Details',
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.orange),
+                    color: Colors.grey),
               ),
             ],
           ),
@@ -179,14 +189,14 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue),
+                          color: Colors.black),
                     ),
                     const Text(
                       'Details',
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.orange),
+                          color: Colors.grey),
                     ),
                   ],
                 ),
@@ -215,7 +225,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                   height: 10,
                 ),
                 const Text(
-                  'Age',
+                  'Dept',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -230,30 +240,60 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: agecontroller,
+                    controller: deptcontroller,
                     decoration: const InputDecoration(border: InputBorder.none),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  'Address',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: DropdownButton<String>(
+                    value: selectedOption,
+                    hint: const Text('Select a department'),
+                    items: options.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedOption = newValue;
+                        selectedDeptId =
+                            deptIdMap[selectedOption]; // Auto-select deptId
+                      });
+                    },
+                  ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 20),
+
+                // Display the auto-selected department ID
+                if (selectedDeptId != null)
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "Department ID: $selectedDeptId",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 Container(
                   margin: const EdgeInsets.only(left: 5, top: 2),
                   decoration: BoxDecoration(
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: addresscontroller,
+                    controller: deptIdcontroller,
                     decoration: const InputDecoration(border: InputBorder.none),
                   ),
                 ),
@@ -263,9 +303,9 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                       onPressed: () async {
                         Map<String, dynamic> updateInfo = {
                           "Name": nameController.text,
-                          "Age": agecontroller.text,
+                          "Dept": selectedOption,
                           "Id": id,
-                          "Address": addresscontroller.text
+                          "DeptId": selectedDeptId,
                         };
                         await DataBaseMethods()
                             .updateEmployeeDetails(id, updateInfo)
