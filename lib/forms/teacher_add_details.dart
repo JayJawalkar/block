@@ -85,7 +85,7 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       ),
                       padding: const EdgeInsets.all(8),
                       child: DropdownButton<String>(
-                        value: selectedOption,
+                        value: selectedDept,
                         hint: const Text('Select a department'),
                         items: options.map((String value) {
                           return DropdownMenuItem<String>(
@@ -95,9 +95,9 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                         }).toList(),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedOption = newValue;
+                            selectedDept = newValue;
                             selectedDeptId =
-                                deptIdMap[selectedOption]; // Auto-select deptId
+                                deptIdMap[selectedDept]; // Auto-select deptId
                           });
                         },
                       ),
@@ -139,8 +139,7 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       icon: const Icon(Icons.group_add_sharp),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          if (selectedOption == null ||
-                              selectedDeptId == null) {
+                          if (selectedDept == null || selectedDeptId == null) {
                             Fluttertoast.showToast(
                               msg: "Please select a department",
                               toastLength: Toast.LENGTH_SHORT,
@@ -155,7 +154,7 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
 
                           Map<String, dynamic> employeeInfoMap = {
                             "Name": nameController.text,
-                            "Dept": selectedOption,
+                            "Dept": selectedDept,
                             "Id": id,
                             "DeptId": selectedDeptId
                           };
