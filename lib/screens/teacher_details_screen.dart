@@ -254,7 +254,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                   ),
                   padding: const EdgeInsets.all(8),
                   child: DropdownButton<String>(
-                    value: selectedOption,
+                    value: selectedDept,
                     hint: const Text('Select a department'),
                     items: options.map((String value) {
                       return DropdownMenuItem<String>(
@@ -264,9 +264,9 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                     }).toList(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        selectedOption = newValue;
+                        selectedDept = newValue;
                         selectedDeptId =
-                            deptIdMap[selectedOption]; // Auto-select deptId
+                            deptIdMap[selectedDept]; // Auto-select deptId
                       });
                     },
                   ),
@@ -303,7 +303,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                       onPressed: () async {
                         Map<String, dynamic> updateInfo = {
                           "Name": nameController.text,
-                          "Dept": selectedOption,
+                          "Dept": selectedDept,
                           "Id": id,
                           "DeptId": selectedDeptId,
                         };

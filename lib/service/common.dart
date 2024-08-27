@@ -14,5 +14,5 @@ final Map<String, String> deptIdMap = {
   'Robotics': 'Rob2023',
   'Mechanical': 'Mech2006',
 };
-String? selectedOption;
+String? selectedDept;
 String? selectedDeptId;
