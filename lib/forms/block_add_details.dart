@@ -1,3 +1,4 @@
+import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
@@ -63,12 +64,32 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  TextField(
-                    controller: crD,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      hintText: "Enter Department Name",
-                      focusedBorder: OutlineInputBorder(),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: DropdownButton<String>(
+                      value: selectedDept,
+                      hint: const Text('Select a department'),
+                      items: options.map(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String? newValue) {
+                        setState(
+                          () {
+                            selectedDept = newValue;
+                            selectedDeptId =
+                                deptIdMap[selectedDept]; //Auto-select deptId
+                          },
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -94,35 +115,27 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                           style: TextStyle(fontSize: 20),
                         ),
                         Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: "Yes",
-                                  groupValue: groupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      groupValue = value!;
-                                    });
-                                  }),
-                              const Text(
-                                "A",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Radio(
-                                  value: "No",
-                                  groupValue: groupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      groupValue = value!;
-                                    });
-                                  }),
-                              const Text(
-                                "B",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: DropdownButton<String>(
+                            value: selectedDept,
+                            hint: const Text('Select a department'),
+                            items: options.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedDept = newValue;
+                                selectedDeptId = deptIdMap[
+                                    selectedDept]; // Auto-select deptId
+                              });
+                            },
                           ),
                         ),
                       ],
@@ -140,7 +153,7 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                         "Id": id,
                       };
                       await DataBaseMethodsBlock()
-                            .addBlockDetails(employeeInfoMap, id);
+                          .addBlockDetails(employeeInfoMap, id);
                     },
                     focusElevation: 20,
                     label: const Text("ADD"),
