@@ -12,8 +12,6 @@ class BlockDetailsScreen extends StatefulWidget {
 
 class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController deptcontroller = TextEditingController();
-  TextEditingController deptIdcontroller = TextEditingController();
   Stream? BlockStream;
 
   getOntheLoad() async {
@@ -67,8 +65,8 @@ class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         nameController.text = ds["ClassNo"];
-                                        deptcontroller.text = ds["Dept"];
-                                        deptIdcontroller.text = ds["Floor"];
+                                        selectedBuilding = ds["Building"];
+                                        selectedFloor = ds["Floor"];
                                         EditBlockDetails(ds["Id"]);
                                       },
                                       child: const Icon(
@@ -81,8 +79,8 @@ class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        DataBaseMethods()
-                                            .deleteEmployeeDetails(ds["Id"]);
+                                        DataBaseMethodsBlock()
+                                            .deleteBlockDetails(ds["Id"]);
                                       },
                                       child: const Icon(Icons.delete,
                                           color: Colors.orange),
@@ -91,7 +89,7 @@ class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
                                 ),
                                 Text(
                                   // ignore: prefer_interpolation_to_compose_strings
-                                  "Dept : " + ds['Dept'],
+                                  "Building : " + ds['Building'],
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -251,14 +249,14 @@ class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
-                      Map<String, dynamic> updateInfo = {
-                        "Name": nameController.text,
-                        "Dept": selectedDept,
+                      Map<String, dynamic> updateBlockInfo = {
+                        "ClassNo": nameController.text,
+                        "Building": selectedBuilding,
+                        "Floor": selectedFloor,
                         "Id": id,
-                        "DeptId": selectedDeptId,
                       };
                       await DataBaseMethods()
-                          .updateEmployeeDetails(id, updateInfo)
+                          .updateEmployeeDetails(id, updateBlockInfo)
                           .then((value) {
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);

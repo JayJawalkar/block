@@ -42,15 +42,15 @@ class DataBaseMethodsBlock {
     return await FirebaseFirestore.instance.collection("block").snapshots();
   }
 
-  Future updateBlocDetails(
-      String id, Map<String, dynamic> updateInfo) async {
+  Future updateBlockDetails(
+      String id, Map<String, dynamic> updateBlockInfo) async {
     return await FirebaseFirestore.instance
         .collection("block")
         .doc(id)
-        .update(updateInfo);
+        .update(updateBlockInfo);
   }
 
-  Future deleteBlocDetails(String id) async {
+  Future deleteBlockDetails(String id) async {
     return await FirebaseFirestore.instance
         .collection("block")
         .doc(id)
