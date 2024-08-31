@@ -14,5 +14,12 @@ final Map<String, String> deptIdMap = {
   'Robotics': 'Rob2023',
   'Mechanical': 'Mech2006',
 };
+List<String> buildingOptions = ['Building A', 'Building B'];
+Map<String, List<String>> floorOptionsMap = {
+  'Building A': ['Floor 1', 'Computer', 'Electronics and Telecommunication'],
+  'Building B': ['Civil', 'Robotics', 'Mechanical']
+};
 String? selectedDept;
 String? selectedDeptId;
+String? selectedBuilding;
+String? selectedFloor;

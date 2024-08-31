@@ -38,11 +38,11 @@ class DataBaseMethodsBlock {
         .set(employeeInfoMap);
   }
 
-  Future<Stream<QuerySnapshot>> getEmployeeDetails() async {
+  Future<Stream<QuerySnapshot>> getBlockDetails() async {
     return await FirebaseFirestore.instance.collection("block").snapshots();
   }
 
-  Future updateEmployeeDetails(
+  Future updateBlocDetails(
       String id, Map<String, dynamic> updateInfo) async {
     return await FirebaseFirestore.instance
         .collection("block")
@@ -50,7 +50,7 @@ class DataBaseMethodsBlock {
         .update(updateInfo);
   }
 
-  Future deleteEmployeeDetails(String id) async {
+  Future deleteBlocDetails(String id) async {
     return await FirebaseFirestore.instance
         .collection("block")
         .doc(id)

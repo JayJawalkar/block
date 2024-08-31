@@ -3,21 +3,21 @@ import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
 
-class TeacherDetailsScreen extends StatefulWidget {
-  const TeacherDetailsScreen({super.key});
+class BlockDetailsScreen extends StatefulWidget {
+  const BlockDetailsScreen({super.key});
 
   @override
-  State<TeacherDetailsScreen> createState() => _TeacherDetailsScreenState();
+  State<BlockDetailsScreen> createState() => _BlockDetailsScreenState();
 }
 
-class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
+class _BlockDetailsScreenState extends State<BlockDetailsScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController deptcontroller = TextEditingController();
   TextEditingController deptIdcontroller = TextEditingController();
-  Stream? EmployeeStream;
+  Stream? BlockStream;
 
   getOntheLoad() async {
-    EmployeeStream = await DataBaseMethods().getEmployeeDetails();
+    BlockStream = await DataBaseMethodsBlock().getBlockDetails();
     setState(() {});
   }
 
@@ -27,9 +27,9 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
     super.initState();
   }
 
-  Widget allEmployeeDetails() {
+  Widget allBlockDetails() {
     return StreamBuilder(
-        stream: EmployeeStream,
+        stream: BlockStream,
         builder: (context, AsyncSnapshot snapshot) {
           return snapshot.hasData
               ? ListView.builder(
@@ -53,10 +53,10 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                   children: [
+                                  children: [
                                     Text(
                                       // ignore: prefer_interpolation_to_compose_strings
-                                      "Name :" + ds['Name'],
+                                      "ClassNo :" + ds['ClassNo'],
                                       style: const TextStyle(
                                         color: Colors.orange,
                                         fontWeight: FontWeight.bold,
@@ -66,10 +66,10 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                                     const Spacer(),
                                     GestureDetector(
                                       onTap: () {
-                                        nameController.text = ds["Name"];
+                                        nameController.text = ds["ClassNo"];
                                         deptcontroller.text = ds["Dept"];
-                                        deptIdcontroller.text = ds["DeptId"];
-                                        EditEmployeeDetails(ds["Id"]);
+                                        deptIdcontroller.text = ds["Floor"];
+                                        EditBlockDetails(ds["Id"]);
                                       },
                                       child: const Icon(
                                         Icons.edit,
@@ -100,16 +100,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                                 ),
                                 Text(
                                   // ignore: prefer_interpolation_to_compose_strings
-                                  "Dept Id : " + ds['DeptId'],
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  // ignore: prefer_interpolation_to_compose_strings
-                                  "Teacher Id : " + ds['Id'],
+                                  "Floor : " + ds['Floor'],
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.bold,
@@ -137,7 +128,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Teacher',
+                'Block',
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -158,14 +149,14 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
         margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
         child: Column(
           children: [
-            Expanded(child: allEmployeeDetails()),
+            Expanded(child: allBlockDetails()),
           ],
         ),
       ),
     );
   }
 
-  Future EditEmployeeDetails(String id) => showDialog(
+  Future EditBlockDetails(String id) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: Container(
@@ -200,7 +191,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                 ),
                 const SizedBox(height: 20.0),
                 const Text(
-                  'Name',
+                  'Class Room Number',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -223,7 +214,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                   height: 10,
                 ),
                 const Text(
-                  'Dept',
+                  'Building',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -239,9 +230,10 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                   ),
                   padding: const EdgeInsets.all(8),
                   child: DropdownButton<String>(
-                    value: selectedDept,
-                    hint: const Text('Select a department'),
-                    items: options.map((String value) {
+                    value: selectedFloor,
+                    hint: const Text('Select a Floor'),
+                    items:
+                        floorOptionsMap[selectedBuilding]!.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -249,46 +241,31 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                     }).toList(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        selectedDept = newValue;
-                        selectedDeptId =
-                            deptIdMap[selectedDept]; // Auto-select deptId
+                        selectedFloor = newValue;
                       });
                     },
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Display the auto-selected department ID
-                if (selectedDeptId != null)
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      "Department ID: $selectedDeptId",
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: ElevatedButton(
-                      onPressed: () async {
-                        Map<String, dynamic> updateInfo = {
-                          "Name": nameController.text,
-                          "Dept": selectedDept,
-                          "Id": id,
-                          "DeptId": selectedDeptId,
-                        };
-                        await DataBaseMethods()
-                            .updateEmployeeDetails(id, updateInfo)
-                            .then((value) {
-                          Navigator.pop(context);
-                        });
-                      },
-                      child: const Text("Update")),
+                    onPressed: () async {
+                      Map<String, dynamic> updateInfo = {
+                        "Name": nameController.text,
+                        "Dept": selectedDept,
+                        "Id": id,
+                        "DeptId": selectedDeptId,
+                      };
+                      await DataBaseMethods()
+                          .updateEmployeeDetails(id, updateInfo)
+                          .then((value) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text("Update"),
+                  ),
                 ),
               ],
             ),
