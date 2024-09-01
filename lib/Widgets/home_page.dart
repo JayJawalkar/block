@@ -1,5 +1,6 @@
 import 'package:exam_block/pages/details_add_multi.dart';
 import 'package:exam_block/pages/exam_details.dart';
+import 'package:exam_block/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,6 +102,21 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              FloatingActionButton.extended(
+                focusColor: Colors.white,
+                hoverColor: Colors.white,
+                heroTag: "LOGOUT",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                focusElevation: 20,
+                label: const Text("LOGOUT"),
+                hoverElevation: 20,
+                icon: const Icon(Icons.add_chart),
               ),
             ],
           ),

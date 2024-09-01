@@ -99,19 +99,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     (error, stackTrace) {
                       {
                         print(error);
-                        // final snackBar = SnackBar(
-                        //   content: const Text('Yay! A SnackBar!'),
-                        //   action: SnackBarAction(
-                        //     label: 'Undo',
-                        //     onPressed: () {
+                        final snackBar = SnackBar(
+                          content: const Text('Login fail!!'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
 
-                        //     },
-                        //   ),
-                        // );
+                            },
+                          ),
+                        );
 
-                        // // Find the ScaffoldMessenger in the widget tree
-                        // // and use it to show a SnackBar.
-                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        // Find the ScaffoldMessenger in the widget tree
+                        // and use it to show a SnackBar.
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   );

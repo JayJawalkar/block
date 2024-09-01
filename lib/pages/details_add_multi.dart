@@ -1,6 +1,6 @@
 import 'package:exam_block/forms/block_add_details.dart';
-import 'package:exam_block/forms/dep_add_details.dart';
 import 'package:exam_block/forms/teacher_add_details.dart';
+import 'package:exam_block/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class MultiDetailPage extends StatefulWidget {
@@ -134,45 +134,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(20),
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 131, 131, 131),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    const Text(
-                      "Add New Department Details",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    FloatingActionButton.extended(
-                      focusColor: Colors.white,
-                      hoverColor: Colors.white,
-                      heroTag: "New Department",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DepAddDetails(),
-                          ),
-                        );
-                      },
-                      focusElevation: 20,
-                      label: const Text("ADD"),
-                      hoverElevation: 20,
-                      icon: const Icon(Icons.add_chart),
-                    ),
-                  ],
-                ),
-              ),
+              
             ],
           ),
         ),
