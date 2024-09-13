@@ -1,6 +1,5 @@
 import 'package:exam_block/forms/block_add_details.dart';
 import 'package:exam_block/forms/teacher_add_details.dart';
-import 'package:exam_block/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class MultiDetailPage extends StatefulWidget {
@@ -134,7 +133,6 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                   ],
                 ),
               ),
-              
             ],
           ),
         ),
