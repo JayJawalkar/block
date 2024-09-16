@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:exam_block/pages/details_add_multi.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,33 +21,29 @@ class _HomePageState extends State<HomePage> {
       allowedExtensions: ['json'],
     );
 
-    // Check if the user has picked a file
     if (result != null && result.files.single.bytes != null) {
       String content = String.fromCharCodes(result.files.single.bytes!);
 
-      // Ensure valid JSON format and handle null values in data
       try {
         List<dynamic> parsedJson = json.decode(content);
 
-        // Check if each parsed item is a map, and handle nulls
+        // Filter out null entries and handle potential missing keys
         setState(() {
-          _jsonData = parsedJson.map((item) {
-            return (item as Map<String, dynamic>).map((key, value) {
-              return MapEntry(key,
-                  value ?? ''); // Replace null with empty string or fallback
-            });
-          }).toList();
+          _jsonData = parsedJson
+              .where((item) => item != null)
+              .map((item) => (item as Map<String, dynamic>))
+              .toList();
         });
       } catch (e) {
-        // Handle any error that may occur during parsing
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error parsing JSON: $e")),
         );
       }
     } else {
-      // Handle case where no file is picked
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No file selected or file is empty")),
+        const SnackBar(
+          content: Text("No file selected or file is empty"),
+        ),
       );
     }
   }
@@ -70,78 +67,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 80),
-              Container(
-                width: double.maxFinite,
-                height: 100,
-                decoration: const BoxDecoration(color: Colors.grey),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 20),
-                    const Text(
-                      "Add Teacher and Block Details",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    const SizedBox(width: 20),
-                    FloatingActionButton.extended(
-                      heroTag: "Button 2",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MultiDetailPage(),
-                          ),
-                        );
-                      },
-                      focusElevation: 20,
-                      label: const Text("ADD"),
-                      hoverElevation: 20,
-                      icon: const Icon(Icons.add),
-                    ),
-                  ],
-                ),
-              ),
+              _buildAddDetailsSection(),
               const SizedBox(height: 40),
-              Container(
-                width: double.maxFinite,
-                height: 100,
-                decoration: const BoxDecoration(color: Colors.grey),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 20),
-                    const Text(
-                      "Add Time Table .json",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    const SizedBox(width: 20),
-                    FloatingActionButton.extended(
-                      heroTag: "Button 1",
-                      onPressed: _pickAndReadJson, // Trigger JSON picker
-                      focusElevation: 20,
-                      label: const Text("ADD"),
-                      hoverElevation: 20,
-                      icon: const Icon(Icons.add),
-                    ),
-                  ],
-                ),
-              ),
+              _buildAddJsonSection(),
               const SizedBox(height: 40),
               if (_jsonData.isNotEmpty) _buildDataTable(), // Show the table
-              const SizedBox(height: 80),
-              const SizedBox(height: 50),
-              FloatingActionButton.extended(
-                focusColor: Colors.white,
-                hoverColor: Colors.white,
-                heroTag: "LOGOUT",
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                focusElevation: 20,
-                label: const Text("LOGOUT"),
-                hoverElevation: 20,
-                icon: const Icon(Icons.add_chart),
-              ),
+              const SizedBox(height: 40),
+              _buildLogoutButton(),
+              const SizedBox(height: 40),
+              _buildAllocateButton()
             ],
           ),
         ),
@@ -149,19 +83,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget to display the JSON data in table format
+  // Widget to display the JSON data in a table format
   Widget _buildDataTable() {
     if (_jsonData.isEmpty) return const SizedBox.shrink();
 
-    // Assuming all objects in the JSON list have the same keys
-    List<String> columns = _jsonData.first.keys.toList();
+    // Get all unique columns from the JSON data
+    Set<String> columns = {};
+    for (var data in _jsonData) {
+      columns.addAll(data.keys);
+    }
+
+    // Sort columns to have a consistent order (optional)
+    List<String> sortedColumns = columns.toList()..sort();
 
     return Column(
       children: [
         SingleChildScrollView(
+          dragStartBehavior: DragStartBehavior.start,
+          padding: const EdgeInsets.all(15),
           scrollDirection: Axis.horizontal,
           child: DataTable(
-            columns: columns
+            columns: sortedColumns
                 .map(
                   (key) => DataColumn(
                     label: Text(key),
@@ -170,18 +112,96 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
             rows: _jsonData.map((data) {
               return DataRow(
-                cells: columns
-                    .map(
-                      (key) => DataCell(
-                        Text(data[key]?.toString() ?? ''),
-                      ),
-                    )
-                    .toList(),
+                cells: sortedColumns.map((key) {
+                  return DataCell(
+                    Text(data[key]?.toString() ?? ''),
+                  );
+                }).toList(),
               );
             }).toList(),
           ),
         ),
       ],
+    );
+  }
+
+  // Widget to build the "Add Teacher and Block Details" section
+  Widget _buildAddDetailsSection() {
+    return Container(
+      width: double.maxFinite,
+      height: 100,
+      decoration: const BoxDecoration(color: Colors.grey),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(width: 20),
+          const Text(
+            "Add Teacher and Block Details",
+            style: TextStyle(fontSize: 25),
+          ),
+          const SizedBox(width: 20),
+          FloatingActionButton.extended(
+            heroTag: "Button 2",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MultiDetailPage(),
+                ),
+              );
+            },
+            label: const Text("ADD"),
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build the "Add Time Table .json" section
+  Widget _buildAddJsonSection() {
+    return Container(
+      width: double.maxFinite,
+      height: 100,
+      decoration: const BoxDecoration(color: Colors.grey),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(width: 20),
+          const Text(
+            "Add Time Table .json",
+            style: TextStyle(fontSize: 25),
+          ),
+          const SizedBox(width: 20),
+          FloatingActionButton.extended(
+            heroTag: "Button 1",
+            onPressed: _pickAndReadJson, // Trigger JSON picker
+            label: const Text("ADD"),
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build the Logout button
+  Widget _buildLogoutButton() {
+    return FloatingActionButton.extended(
+      heroTag: "LOGOUT",
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      label: const Text("LOGOUT"),
+      icon: const Icon(Icons.add_chart),
+    );
+  }
+
+  Widget _buildAllocateButton() {
+    return FloatingActionButton.extended(
+      heroTag: "LOGOUT",
+      onPressed: () {},
+      label: const Text("Allocate"),
+      icon: const Icon(Icons.add_chart),
     );
   }
 }
