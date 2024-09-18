@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:exam_block/screens/teacher_details_screen.dart';
 import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
 import 'package:intl/intl.dart';
@@ -26,36 +25,23 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.arrow_back),
-                  ],
-                ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Add New Teacher Details",
-                    style: TextStyle(
-                      fontSize:
-                          max(70, MediaQuery.of(context).size.width / 1000),
-                    ),
+                    style: TextStyle(fontSize: 16.sp),
                   ),
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(20),
+                margin: EdgeInsets.all(16.sp),
                 padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
@@ -80,17 +66,20 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.sp),
 
                       Container(
+                        margin: EdgeInsets.all(16.sp),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: const EdgeInsets.all(8),
                         child: DropdownButton<String>(
                           value: selectedDept,
-                          hint: const Text('Select a department'),
+                          hint: Text(
+                            'Select a department',
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
                           items: options.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -106,11 +95,12 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 8.sp),
 
                       // Display the auto-selected department ID
                       if (selectedDeptId != null)
                         Container(
+                          margin: EdgeInsets.all(8.sp),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
@@ -118,8 +108,8 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                           padding: const EdgeInsets.all(8),
                           child: Text(
                             "Department ID: $selectedDeptId",
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 12.sp, fontWeight: FontWeight.bold),
                           ),
                         ),
 

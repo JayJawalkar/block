@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:exam_block/forms/block_add_details.dart';
 import 'package:exam_block/forms/teacher_add_details.dart';
@@ -15,22 +14,10 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context, build(context));
-                  },
-                  child: const Icon(Icons.arrow_back),
-                ),
-              ],
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

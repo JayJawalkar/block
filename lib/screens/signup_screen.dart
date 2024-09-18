@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'package:exam_block/Widgets/home_page.dart';
+import 'package:exam_block/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -25,23 +25,26 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(
               height: 30,
             ),
-            const Center(
+            Center(
               child: Text(
                 "Sign Up",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 80,
+            SizedBox(
+              height: 40.sp,
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextField(
+              child: TextFormField(
                 controller: _userNameController,
                 decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
                   prefixIcon: Icon(Icons.person),
                   filled: true,
                   hintText: "Enter User Name",
@@ -53,14 +56,17 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 80,
+            SizedBox(
+              height: 20.sp,
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextField(
+              child: TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
                   prefixIcon: Icon(Icons.mail),
                   filled: true,
                   hintText: "Enter Email Id ",
@@ -72,13 +78,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 80,
+            SizedBox(
+              height: 20.sp,
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextField(
+              child: TextFormField(
                 decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -116,16 +125,22 @@ class _SignupScreenState extends State<SignupScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                        builder: (context) => const LoginScreen(),
                       ),
                     );
                   },
                 );
               },
               focusElevation: 20,
-              label: const Text("SIGN UP"),
+              label: Text(
+                "SIGN UP",
+                style: TextStyle(fontSize: 6.sp),
+              ),
               hoverElevation: 20,
-              icon: const Icon(Icons.login_rounded),
+              icon: Icon(
+                Icons.login_rounded,
+                size: 9.sp,
+              ),
             ),
           ],
         ),

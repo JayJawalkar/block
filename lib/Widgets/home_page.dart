@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:exam_block/pages/details_add_multi.dart';
 import 'package:exam_block/screens/filepicker.dart';
+import 'package:exam_block/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FilePicker1(),
+                  builder: (context) => const FilePicker1(),
                 ),
               );
             }, // Trigger JSON picker
@@ -144,7 +145,12 @@ class _HomePageState extends State<HomePage> {
       hoverColor: Colors.white,
       heroTag: "LOGOUT",
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
       },
       label: Text(
         "LOGOUT",

@@ -1,8 +1,8 @@
-import 'package:exam_block/Widgets/home_page.dart';
+import 'package:exam_block/Widgets/authcheck.dart';
 import 'package:exam_block/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(
-          360, 690), // Set the design size according to your UI design
-      minTextAdapt: true, // Enable text adaptation
+        360,
+        690,
+      ),
+      minTextAdapt: true,
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
           ),
-          home: const HomePage(),
+          home: const AuthCheck(),
         );
       },
     );

@@ -4,6 +4,7 @@ import 'package:exam_block/screens/block_details_screen.dart';
 import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:random_string/random_string.dart';
 
 class BlockAddDetails extends StatefulWidget {
@@ -21,31 +22,16 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.arrow_back),
-                  ],
-                ),
-              ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "Add New Block Details",
-                  style: TextStyle(
-                    fontSize: max(70, MediaQuery.of(context).size.width / 1000),
-                  ),
+                  style: TextStyle(fontSize: 16.sp),
                 ),
               ],
             ),
@@ -113,6 +99,11 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                   ),
                 const SizedBox(height: 20),
                 FloatingActionButton.extended(
+                  hoverElevation: 20,
+                  focusElevation: 20,
+                  backgroundColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
                   heroTag: "Block Submit",
                   onPressed: () async {
                     String id = randomAlphaNumeric(10);
@@ -125,17 +116,21 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                     await DataBaseMethodsBlock()
                         .addBlockDetails(blockInfoMap, id);
                   },
-                  focusElevation: 20,
-                  label: const Text(
+                  label: Text(
                     "ADD",
+                    style: TextStyle(fontSize: 6.sp),
                   ),
-                  hoverElevation: 20,
-                  icon: const Icon(Icons.group_add_sharp),
+                  icon: Icon(Icons.group_add_sharp, size: 9.sp),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 20.sp,
                 ),
                 FloatingActionButton.extended(
+                  hoverElevation: 20,
+                  focusElevation: 20,
+                  backgroundColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
                   heroTag: "Block Navigate",
                   onPressed: () {
                     Navigator.push(
@@ -145,10 +140,14 @@ class _BlockAddDetailsState extends State<BlockAddDetails> {
                       ),
                     );
                   },
-                  label: const Text(
-                    "Show",
+                  label: Text(
+                    "SHOW",
+                    style: TextStyle(fontSize: 6.sp),
                   ),
-                  icon: const Icon(Icons.group_add_sharp),
+                  icon: Icon(
+                    Icons.group_add_sharp,
+                    size: 9.sp,
+                  ),
                 ),
               ],
             ),

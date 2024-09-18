@@ -1,9 +1,13 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class FilePicker1 extends StatefulWidget {
+  const FilePicker1({super.key});
+
   @override
   _FilePicker1State createState() => _FilePicker1State();
 }

@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:exam_block/Widgets/home_page.dart';
-import 'package:exam_block/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:exam_block/screens/signup_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passCotroller = TextEditingController();
   bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,43 +25,43 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.only(top: 50),
           child: Column(
             children: [
-              const Center(
+              Center(
                 child: Text(
-                  "Block Managment",
+                  "Block Management",
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: Colors.white12),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              const SizedBox(
-                height: 100,
-              ),
+              const SizedBox(height: 100),
               Container(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextField(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
                     filled: true,
+                    fillColor: Colors.white,
+                    focusColor: Colors.white,
+                    hoverColor: Colors.white,
                     hintText: "Enter Email-Id",
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     prefixIcon: Icon(Icons.mail),
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(
-                height: 80,
-              ),
+              const SizedBox(height: 80),
               Container(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextField(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
                   controller: _passCotroller,
                   decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    focusColor: Colors.white,
+                    hoverColor: Colors.white,
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -73,9 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     hintText: "Enter Password",
                     focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     prefixIcon: const Icon(Icons.key),
                   ),
@@ -83,51 +82,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _isObscure,
                 ),
               ),
-              const SizedBox(
-                height: 80,
-              ),
+              const SizedBox(height: 80),
               FloatingActionButton.extended(
-                onPressed: () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passCotroller.text)
-                      .then((value) {
-                    Navigator.push(
-                        (context),
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                  }).onError(
-                    (error, stackTrace) {
-                      {
-                        final snackBar = SnackBar(
-                          content: const Text('Login fail!!'),
-                          action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () {
-
-                            },
-                          ),
-                        );
-
-                        // Find the ScaffoldMessenger in the widget tree
-                        // and use it to show a SnackBar.
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                  );
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: _emailController.text,
+                      password: _passCotroller.text,
+                    );
+                  } catch (e) {
+                    final snackBar = SnackBar(
+                      content: Text('Login failed: $e'),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {},
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
                 },
-                focusElevation: 20,
-                label: const Text("LOGIN"),
-                hoverElevation: 20,
-                icon: const Icon(Icons.login),
+                label: Text(
+                  "LOGIN",
+                  style: TextStyle(fontSize: 6.sp),
+                ),
+                icon: Icon(
+                  Icons.login,
+                  size: 9.sp,
+                ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text("Don't have an Account?",
                       style: TextStyle(fontSize: 16)),
@@ -140,14 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     },
-                    child: const Text(
-                      "Sign-Up",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
+                    child: const Text("Sign-Up",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
