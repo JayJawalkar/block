@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:exam_block/Widgets/home_page.dart';
 import 'package:exam_block/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   }).onError(
                     (error, stackTrace) {
                       {
-                        print(error);
                         final snackBar = SnackBar(
                           content: const Text('Login fail!!'),
                           action: SnackBarAction(

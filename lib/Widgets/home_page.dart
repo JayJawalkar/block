@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
+import 'dart:math';
 import 'package:exam_block/pages/details_add_multi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
@@ -57,12 +60,11 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const Center(
+              Center(
                 child: Text(
                   "Home Page",
                   style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                    fontSize: max(70, MediaQuery.of(context).size.width / 1000),
                   ),
                 ),
               ),
@@ -127,20 +129,26 @@ class _HomePageState extends State<HomePage> {
 
   // Widget to build the "Add Teacher and Block Details" section
   Widget _buildAddDetailsSection() {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: 100,
-      decoration: const BoxDecoration(color: Colors.grey),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(width: 20),
-          const Text(
+          Text(
             "Add Teacher and Block Details",
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(
+              fontSize: max(35, MediaQuery.of(context).size.width / 1000),
+            ),
           ),
           const SizedBox(width: 20),
           FloatingActionButton.extended(
+            hoverElevation: 20,
+            focusElevation: 20,
+            backgroundColor: Colors.white,
+            focusColor: Colors.white,
+            hoverColor: Colors.white,
             heroTag: "Button 2",
             onPressed: () {
               Navigator.push(
@@ -160,20 +168,26 @@ class _HomePageState extends State<HomePage> {
 
   // Widget to build the "Add Time Table .json" section
   Widget _buildAddJsonSection() {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: 100,
-      decoration: const BoxDecoration(color: Colors.grey),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(width: 20),
-          const Text(
+          Text(
             "Add Time Table .json",
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(
+              fontSize: max(35, MediaQuery.of(context).size.width / 1000),
+            ),
           ),
           const SizedBox(width: 20),
           FloatingActionButton.extended(
+            hoverElevation: 20,
+            focusElevation: 20,
+            backgroundColor: Colors.white,
+            focusColor: Colors.white,
+            hoverColor: Colors.white,
             heroTag: "Button 1",
             onPressed: _pickAndReadJson, // Trigger JSON picker
             label: const Text("ADD"),
@@ -187,6 +201,11 @@ class _HomePageState extends State<HomePage> {
   // Widget to build the Logout button
   Widget _buildLogoutButton() {
     return FloatingActionButton.extended(
+      hoverElevation: 20,
+      focusElevation: 20,
+      backgroundColor: Colors.white,
+      focusColor: Colors.white,
+      hoverColor: Colors.white,
       heroTag: "LOGOUT",
       onPressed: () {
         Navigator.pop(context);
@@ -198,7 +217,12 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildAllocateButton() {
     return FloatingActionButton.extended(
-      heroTag: "LOGOUT",
+      hoverElevation: 20,
+      focusElevation: 20,
+      backgroundColor: Colors.white,
+      focusColor: Colors.white,
+      hoverColor: Colors.white,
+      heroTag: "Allocate",
       onPressed: () {},
       label: const Text("Allocate"),
       icon: const Icon(Icons.add_chart),

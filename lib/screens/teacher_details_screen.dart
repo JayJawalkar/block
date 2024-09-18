@@ -285,6 +285,7 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
                         await DataBaseMethods()
                             .updateEmployeeDetails(id, updateInfo)
                             .then((value) {
+                          // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                         });
                       },

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:exam_block/screens/teacher_details_screen.dart';
 import 'package:exam_block/service/common.dart';
 import 'package:exam_block/service/database.dart';
@@ -40,25 +42,21 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(color: Colors.grey),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Add New Teacher Details",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Add New Teacher Details",
+                    style: TextStyle(
+                      fontSize:
+                          max(70, MediaQuery.of(context).size.width / 1000),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Container(
                 margin: const EdgeInsets.all(20),
                 padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(color: Colors.grey),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -68,9 +66,12 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       TextFormField(
                         controller: nameController,
                         decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          hoverColor: Colors.white,
                           filled: true,
                           hintText: "Enter Teacher Name",
-                          focusedBorder: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -123,7 +124,11 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                         ),
 
                       const SizedBox(height: 20),
+
                       FloatingActionButton.extended(
+                        backgroundColor: Colors.white,
+                        focusColor: Colors.white,
+                        hoverColor: Colors.white,
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -139,7 +144,12 @@ class _TeacherAddDetailsState extends State<TeacherAddDetails> {
                       ),
                       const SizedBox(height: 20),
                       FloatingActionButton.extended(
-                        label: const Text(" Add "),
+                        backgroundColor: Colors.white,
+                        focusColor: Colors.white,
+                        hoverColor: Colors.white,
+                        label: const Text(
+                          " Add ",
+                        ),
                         icon: const Icon(Icons.group_add_sharp),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
