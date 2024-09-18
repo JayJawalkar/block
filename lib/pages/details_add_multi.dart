@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:exam_block/forms/block_add_details.dart';
 import 'package:exam_block/forms/teacher_add_details.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +40,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                       child: Text(
                         "Select Details To Add",
                         style: TextStyle(
-                          fontSize:
-                              max(70, MediaQuery.of(context).size.width / 1000),
-                        ),
+                            fontSize: 16.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -60,9 +58,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                 ),
                 Text(
                   "Add New Teacher Details",
-                  style: TextStyle(
-                    fontSize: max(30, MediaQuery.of(context).size.width / 1000),
-                  ),
+                  style: TextStyle(fontSize: 12.sp),
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.white,
@@ -78,9 +74,12 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     );
                   },
                   focusElevation: 20,
-                  label: const Text("ADD"),
+                  label: Text(
+                    "ADD",
+                    style: TextStyle(fontSize: 6.sp),
+                  ),
                   hoverElevation: 20,
-                  icon: const Icon(Icons.add_chart),
+                  icon: Icon(Icons.add_chart, size: 9.sp),
                 ),
               ],
             ),
@@ -93,9 +92,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                 ),
                 Text(
                   "Add New Block Details",
-                  style: TextStyle(
-                    fontSize: max(30, MediaQuery.of(context).size.width / 1000),
-                  ),
+                  style: TextStyle(fontSize: 12.sp),
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.white,
@@ -111,9 +108,15 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                     );
                   },
                   focusElevation: 20,
-                  label: const Text("ADD"),
+                  label: Text(
+                    "ADD",
+                    style: TextStyle(fontSize: 6.sp),
+                  ),
                   hoverElevation: 20,
-                  icon: const Icon(Icons.add_chart),
+                  icon: Icon(
+                    Icons.add_chart,
+                    size: 9.sp,
+                  ),
                 ),
               ],
             ),

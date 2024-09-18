@@ -1,7 +1,8 @@
+import 'package:exam_block/Widgets/home_page.dart';
 import 'package:exam_block/firebase_options.dart';
-import 'package:exam_block/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,17 +15,22 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(
+          360, 690), // Set the design size according to your UI design
+      minTextAdapt: true, // Enable text adaptation
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Exam Block Managment',
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          home: const HomePage(),
+        );
+      },
     );
   }
 }
