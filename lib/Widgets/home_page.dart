@@ -26,16 +26,16 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   "Home",
                   style:
-                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 80),
               _buildAddDetailsSection(),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.sp),
               _buildAddJsonSection(),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.sp),
               _buildLogoutButton(),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.sp),
               _buildAllocateButton()
             ],
           ),
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             "Add Teacher and Block Details ",
             style: TextStyle(
-              fontSize: 12.spMax,
+              fontSize: 16.sp,
             ),
           ),
           FloatingActionButton.extended(
@@ -79,12 +79,12 @@ class _HomePageState extends State<HomePage> {
             label: Text(
               "ADD",
               style: TextStyle(
-                fontSize: 6.sp,
+                fontSize: 9.sp,
               ),
             ),
             icon: Icon(
               Icons.add,
-              size: 9.sp,
+              size: 10.sp,
             ),
           ),
         ],
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             "Add Time Table .json ",
             style: TextStyle(
-              fontSize: 12.spMax,
+              fontSize: 16.spMax,
             ),
           ),
           FloatingActionButton.extended(
@@ -124,11 +124,11 @@ class _HomePageState extends State<HomePage> {
             }, // Trigger JSON picker
             label: Text(
               "ADD",
-              style: TextStyle(fontSize: 6.sp),
+              style: TextStyle(fontSize: 9.sp),
             ),
             icon: Icon(
               Icons.add,
-              size: 9.sp,
+              size: 10.sp,
             ),
           ),
         ],
@@ -154,11 +154,11 @@ class _HomePageState extends State<HomePage> {
       },
       label: Text(
         "LOGOUT",
-        style: TextStyle(fontSize: 6.sp),
+        style: TextStyle(fontSize: 9.sp),
       ),
       icon: Icon(
         Icons.add_chart,
-        size: 9.sp,
+        size: 12.sp,
       ),
     );
   }
@@ -174,11 +174,11 @@ class _HomePageState extends State<HomePage> {
       onPressed: () {},
       label: Text(
         "Allocate",
-        style: TextStyle(fontSize: 6.sp),
+        style: TextStyle(fontSize: 9.sp),
       ),
       icon: Icon(
-        Icons.add_chart,
-        size: 9.sp,
+        Icons.chair_alt_rounded,
+        size: 12.sp,
       ),
     );
   }

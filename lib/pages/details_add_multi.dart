@@ -27,7 +27,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                       child: Text(
                         "Select Details To Add",
                         style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                            fontSize: 24.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -45,7 +45,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                 ),
                 Text(
                   "Add New Teacher Details",
-                  style: TextStyle(fontSize: 12.sp),
+                  style: TextStyle(fontSize: 16.sp),
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.white,
@@ -63,10 +63,10 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                   focusElevation: 20,
                   label: Text(
                     "ADD",
-                    style: TextStyle(fontSize: 6.sp),
+                    style: TextStyle(fontSize: 9.sp),
                   ),
                   hoverElevation: 20,
-                  icon: Icon(Icons.add_chart, size: 9.sp),
+                  icon: Icon(Icons.add, size: 10.sp),
                 ),
               ],
             ),
@@ -79,7 +79,7 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                 ),
                 Text(
                   "Add New Block Details",
-                  style: TextStyle(fontSize: 12.sp),
+                  style: TextStyle(fontSize: 16.sp),
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.white,
@@ -97,12 +97,12 @@ class _MultiDetailPageState extends State<MultiDetailPage> {
                   focusElevation: 20,
                   label: Text(
                     "ADD",
-                    style: TextStyle(fontSize: 6.sp),
+                    style: TextStyle(fontSize: 9.sp),
                   ),
                   hoverElevation: 20,
                   icon: Icon(
                     Icons.add_chart,
-                    size: 9.sp,
+                    size: 10.sp,
                   ),
                 ),
               ],
